@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sitemap Generator - Chrome Extension</title>
-    <meta name="description" content="Generate XML sitemaps for any website with one click. Free Chrome extension for webmasters and SEO professionals.">
-    <meta name="keywords" content="sitemap generator, chrome extension, SEO tools, XML sitemap">
-    <link rel="canonical" href="https://tunjingjing.github.io/sitemap-generator-extension/" />
+    <title>Sitemap Generator - One-Click XML Sitemap Creation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Generate XML sitemaps instantly for any website. Boost your SEO with our efficient Chrome extension.">
     <style>
         :root {
             --color-brown: #4A291E;
@@ -15,134 +14,290 @@
             --color-teal: #4E8278;
             --color-gray: #525250;
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.6;
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
             color: var(--color-brown);
-            background: #f9f9f9;
+            background: #f8f9fa;
         }
 
         .hero {
-            background: var(--color-teal);
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-            background-image: linear-gradient(45deg, var(--color-teal), var(--color-brown));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--color-teal) 0%, rgba(78,130,120,0.9) 100%);
+            position: relative;
+            overflow: hidden;
         }
 
-        .container {
-            max-width: 1000px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="rgba(255,255,255,0.03)" x="0" y="0" width="100" height="100"/></svg>');
+            animation: backgroundMove 30s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .hero-content {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
 
         .cta-button {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             background: var(--color-gold);
             color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: bold;
-            margin: 20px 0;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(198,140,42,0.3);
         }
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(198,140,42,0.4);
         }
 
         .features {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 2rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            padding: 40px 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .feature-card {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--color-teal);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
         }
 
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
         .feature-icon {
-            font-size: 2em;
-            margin-bottom: 15px;
-            color: var(--color-teal);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-teal), var(--color-beige));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .footer {
-            background: var(--color-brown);
-            color: white;
+        .feature-card h3 {
+            color: var(--color-brown);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: var(--color-gray);
+            font-size: 1.1rem;
+        }
+
+        .demo-section {
+            background: var(--color-beige);
+            padding: 4rem 2rem;
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
         }
 
-        .footer a {
+        .demo-video {
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        footer {
+            background: var(--color-brown);
             color: var(--color-beige);
-            text-decoration: none;
+            padding: 2rem;
+            text-align: center;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="container">
+    <section class="hero">
+        <div class="hero-content">
             <h1>Sitemap Generator</h1>
-            <p>Generate XML sitemaps for any website with just one click</p>
+            <p>Create XML sitemaps instantly to enhance your website's visibility</p>
             <a href="https://chrome.google.com/webstore/detail/[YOUR-EXTENSION-ID]" class="cta-button">
-                Add to Chrome - It's Free
+                <span>Add to Chrome - It's Free</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
             </a>
         </div>
+    </section>
+
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>Instant Generation</h3>
+            <p>Create sitemaps for any webpage with a single click, no configuration needed</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <h3>Full Site Crawling</h3>
+            <p>Automatically discover and map all pages within your website</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Lightning Fast</h3>
+            <p>Optimized performance that won't slow down your browsing experience</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Privacy Focused</h3>
+            <p>All processing happens locally in your browser, keeping your data secure</p>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3>One-Click Generation</h3>
-                <p>Generate sitemaps instantly for any webpage you're visiting.</p>
+    <div class="demo-section">
+        <h2>See How It Works</h2>
+        <div class="demo-video">
+            <!-- Add your demo video or GIF here -->
+            <img src="demo.gif" alt="Feature demonstration" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <div class="benefits">
+        <div class="benefit-card">
+            <h3>Boost SEO Performance</h3>
+            <p>Help search engines better understand and index your website structure</p>
+        </div>
+        <div class="benefit-card">
+            <h3>Save Time</h3>
+            <p>Automate sitemap generation instead of creating them manually</p>
+        </div>
+        <div class="benefit-card">
+            <h3>Stay Updated</h3>
+            <p>Generate fresh sitemaps whenever your website content changes</p>
+        </div>
+    </div>
+
+    <div class="testimonials">
+        <h2>What Users Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial">
+                <p>"Perfect tool for quick sitemap generation. Saves hours of work!"</p>
+                <cite>- Web Developer</cite>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3>Full Site Mapping</h3>
-                <p>Automatically crawl and map entire websites.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Fast & Efficient</h3>
-                <p>Lightweight extension that won't slow down your browser.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Privacy Focused</h3>
-                <p>Your data stays in your browser. No external servers.</p>
+            <div class="testimonial">
+                <p>"Simple, efficient, and exactly what I needed for my SEO work."</p>
+                <cite>- Digital Marketer</cite>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>© 2024 Sitemap Generator. All rights reserved.</p>
-            <p>
+    <div class="cta-section">
+        <h2>Ready to Improve Your Site's SEO?</h2>
+        <p>Join thousands of users who trust Sitemap Generator</p>
+        <a href="https://chrome.google.com/webstore/detail/[YOUR-EXTENSION-ID]" class="cta-button">
+            Get Started Now - It's Free
+        </a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
                 <a href="privacy.html">Privacy Policy</a>
-            </p>
+                <a href="https://github.com/tunjingjing/sitemap-generator-extension">GitHub</a>
+                <a href="mailto:support@example.com">Support</a>
+            </div>
+            <p>© 2024 Sitemap Generator. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Optional: Add Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </body>
 </html>
